@@ -8,6 +8,10 @@ import blogRoutes from './routes/blogRoutes.js'
 
 import cors from "cors";
 
+
+dotenv.config()
+connectDB()
+const app = express()
 app.use(
   cors({
     origin: [
@@ -18,10 +22,6 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
-
-dotenv.config()
-connectDB()
-const app = express()
 
 app.use(express.json())
 app.use(morgan('dev'))
