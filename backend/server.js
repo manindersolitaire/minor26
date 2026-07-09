@@ -6,6 +6,19 @@ import { connectDB } from './config/db.js'
 import userRoutes from './routes/userRoutes.js'
 import blogRoutes from './routes/blogRoutes.js'
 
+import cors from "cors";
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://minor26-nine.vercel.app",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+
 dotenv.config()
 connectDB()
 const app = express()
