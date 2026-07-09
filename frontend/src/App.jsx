@@ -8,6 +8,9 @@ import Home from './pages/Home'
 import AddPost from './pages/AddPost'
 import PostDetails from './pages/PostDetails'
 import UserPosts from './pages/UserPosts'
+import axios from "axios";
+
+axios.defaults.baseURL = "https://minor26-production.up.railway.app";
 
 
 const App = () => {
