@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server : {
     proxy : {
-      '/api' : 'http://localhost:1600'
+      '/api' : 'https://minor26-production.up.railway.app/'
     }
   }
 })
