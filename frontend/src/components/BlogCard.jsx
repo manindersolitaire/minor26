@@ -1,8 +1,9 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import { useSelector } from "react-redux";
 
 const BlogCard = ({
   id,
@@ -11,24 +12,28 @@ const BlogCard = ({
   image,
   username,
   time,
+  userId,       // the blog author's _id
 }) => {
 
   const navigate = useNavigate()
+  const loggedInUserId = useSelector((state) => state.userId)
+
   const formattedDate = new Date(time).toLocaleDateString("en-IN", {
     day: "numeric",
     month: "short",
     year: "numeric",
   });
 
+  const isAuthor = loggedInUserId && userId && loggedInUserId === userId
+
   const handleEdit = () => {
     navigate(`/postdetails/${id}`)
   }
 
-
-  const handleDelete =  async() => {
+  const handleDelete = async () => {
     try {
-      const {data} = await axios.delete(`/api/v2/blog/deleteBlog/${id}`)
-      if(data.success){
+      const { data } = await axios.delete(`/api/v2/blog/deleteBlog/${id}`)
+      if (data.success) {
         toast.success('Post Deleted!')
         window.location.reload()
       }
@@ -36,6 +41,7 @@ const BlogCard = ({
       console.log(error)
     }
   }
+
   return (
     <div className="max-w-sm w-full bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
 
@@ -48,24 +54,26 @@ const BlogCard = ({
 
       <div className="p-4">
 
-        {/* Edit & Delete Icons */}
-        <div className="flex justify-end gap-3 mb-2">
-          <button
-            className="text-blue-600 hover:text-blue-800 text-lg transition cursor-pointer"
-            title="Edit Blog"
-            onClick={handleEdit}
-          >
-            <FaEdit />
-          </button>
+        {/* Edit & Delete Icons — only visible to the post's author */}
+        {isAuthor && (
+          <div className="flex justify-end gap-3 mb-2">
+            <button
+              className="text-blue-600 hover:text-blue-800 text-lg transition cursor-pointer"
+              title="Edit Blog"
+              onClick={handleEdit}
+            >
+              <FaEdit />
+            </button>
 
-          <button
-            className="text-red-600 hover:text-red-800 text-lg transition cursor-pointer"
-            title="Delete Blog"
-            onClick={handleDelete}
-          >
-            <FaTrash />
-          </button>
-        </div>
+            <button
+              className="text-red-600 hover:text-red-800 text-lg transition cursor-pointer"
+              title="Delete Blog"
+              onClick={handleDelete}
+            >
+              <FaTrash />
+            </button>
+          </div>
+        )}
 
         {/* Title */}
         <h2 className="text-xl font-semibold text-gray-800">

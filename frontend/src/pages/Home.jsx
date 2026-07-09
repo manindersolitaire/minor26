@@ -43,12 +43,14 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-center gap-8 pt-12">
              {blogs.map((blog)=>{
               return <BlogCard
+              key={blog._id}
               id={blog._id}
               title = {blog.title}
               description = {blog.description}
               image = {blog.image}
               username = {blog.user?.username}
               time = {blog.createdAt}
+              userId = {blog.user?._id}
               /> 
              })}
              

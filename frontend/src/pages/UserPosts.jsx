@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import BlogCard from "../components/BlogCard";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export default function UserPosts() {
   const [blogs, setBlogs] = useState([])
   const [loading, setLoading] = useState(true)
+  const loggedInUserId = useSelector((state) => state.userId)
 
   const getAllBlogs = async() => {
     try {
@@ -44,12 +46,14 @@ export default function UserPosts() {
           <div className="flex flex-wrap items-center justify-center gap-8 pt-12">
              {blogs.map((blog)=>{
               return <BlogCard
+              key={blog._id}
               id={blog._id}
               title = {blog.title}
               description = {blog.description}
               image = {blog.image}
               username = {blog.user?.username}
               time = {blog.createdAt}
+              userId = {loggedInUserId}
               /> 
              })}
              

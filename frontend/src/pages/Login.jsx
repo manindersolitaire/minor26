@@ -41,7 +41,7 @@ export default function Login() {
         }
 
         // Update Redux State
-        dispatch(authActions.login());
+        dispatch(authActions.login(data.user?._id));
 
         toast.success(data.message || "Login Successful!");
 
